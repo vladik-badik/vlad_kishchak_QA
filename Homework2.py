@@ -1,8 +1,9 @@
 
-a = ['United States', 'France', 'Japan']
-b = ['Washington', 'Paris', 'Tokio']
+A = ["USA", "Japan", "Germany"]
 
-print (a[0], b[0], sep=': ')
-print (a[1], b[1], sep=': ')
-print (a[2], b[2], sep=': ')
+B = {"USA": "Washington DC.",
+    "Japan": "Tokio",
+    "Germany": "Berlin"}
 
+for A, B in B.items():
+    print(f"{A}: {B}")
