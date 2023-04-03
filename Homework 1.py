@@ -1,10 +1,4 @@
-#print ("Jinger", "Damir", "Luna" , sep=', ')
+dogs = ["Jinger", "Damir", "Luna"]
+print(dogs[0], dogs[1], dogs[2], sep=", ")
 
-#print ("Greta", "Vincent", "Sharik" , sep=' ')
 
-
-a = "Jinger"
-b = "Damir"
-c = "Luna"
-print (a, b, c, sep=', ')
-print (a, b, c, sep=' ')
