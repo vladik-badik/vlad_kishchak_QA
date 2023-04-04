@@ -1,6 +1,6 @@
-val1 = input("Enter first value: ")
-val2 = input("Enter second value: ")
-val3 = input("Enter third value: ")
+val1 = int(input("Enter first value: "))
+val2 = int(input("Enter second value: "))
+val3 = int(input("Enter third value: "))
 
 max_val = val1
 
