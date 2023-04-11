@@ -22,8 +22,17 @@ lst =[3,2,7,1,5,4,5,6]
 # print (lst)
 
 # print(lst.count(5))
+#
+# lst2 = [1,2,3]
+# lst.extend(lst2)
+# print(lst)
+# print(lst2)
 
-lst2 = [1,2,3]
-lst.extend(lst2)
-print(lst)
-print(lst2)
+#############################
+
+
+a= list('assdfadfsfsd')
+print(a)
+
+
+

@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52083d1f-3b03-4f1f-a416-5ccaa0203d89" name="Changes" comment="" />
+    <list default="true" id="52083d1f-3b03-4f1f-a416-5ccaa0203d89" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Lesson5_lists.py" beforeDir="false" afterPath="$PROJECT_DIR$/Lesson5_lists.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,7 +37,7 @@
     &quot;last_opened_file_path&quot;: &quot;/Users/vladkishchak/Vlados_Qa_automation&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.Lesson5_lists">
+  <component name="RunManager">
     <configuration name="Lesson5_lists" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Vlados_Qa_automation" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -80,10 +82,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <list>
-      <item itemvalue="Python.lesson 4_strings" />
-      <item itemvalue="Python.Lesson5_lists" />
-    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
