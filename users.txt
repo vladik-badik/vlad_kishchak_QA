@@ -1,7 +1,11 @@
-user1;34;+3804454545
-user2;23;
-  user3   ;;
+[{'age': 34, 'name': 'user1', 'phones': ['+3804454545']},
 
-user4;;+5635665335
-user5;25;+6563663  ,   +3333635635
-user6;too old;
+{'age': 23, 'name': 'user2', 'phones': []},
+
+{'age': None, 'name': 'user3', 'phones': []},
+
+{'age': None, 'name': 'user4', 'phones': ['+5635665335']},
+
+{'age': 25, 'name': 'user5', 'phones': ['+6563663', '+3333635635']},
+
+{'age': None, 'name': 'user6', 'phones': []}]
