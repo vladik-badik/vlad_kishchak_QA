@@ -20,11 +20,13 @@ with open('users.txt', 'r') as f:
             phones = [phone.strip() for phone in fields[2].split(',')]
         users.append({'name': name, 'age': age, 'phones': phones})
 
-with open('/Users/vladkishchak/Vlados_Qa_automation/users_out.json', 'w') as f:
+with open('users_out.json', 'w') as f:
     json.dump(users, f)
 
-with open('/Users/vladkishchak/Vlados_Qa_automation/users_out.txt', 'w') as f:
+with open('users_out.txt', 'w') as f:
     for user in users:
         age_str = str(user['age']) if user['age'] is not None else ''
         phones_str = ','.join(user['phones']) if user['phones'] else ''
         f.write(f"{user['name']};{age_str};{phones_str}\n")
+
+print(users)
