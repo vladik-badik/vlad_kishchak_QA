@@ -1,5 +1,5 @@
-# lst=[1,2,3,4,5,7,10,22,45,45.5]
-lst=[3]
+lst=[1,2,3,4,5,7,10,22,45,45.5]
+# lst=[3]
 def second_largest(lst):
     if len(lst) < 2:
         return None
