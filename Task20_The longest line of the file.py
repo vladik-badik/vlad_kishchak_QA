@@ -18,4 +18,4 @@ def find_longest_string(file):
 
 file= '/Users/vladkishchak/Vlados_Qa_automation/file.txt'
 longest_string = find_longest_string(file)
-print(f'The longest line is: {longest_string}')
+print(f'The longest string is: {longest_string}')
