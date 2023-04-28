@@ -8,7 +8,7 @@ def call_counter(filename):
         wrapper.count = 0
         return wrapper
     return decorator
-@call_counter('log.txt')
+@call_counter('data.txt')
 def add():
     print("hello world")
 
