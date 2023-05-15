@@ -61,7 +61,8 @@ class Pet:
               Returns:
               Pet instance with calculated age based on birth year.
               """
-        current_year = 2023
+        import datetime
+        current_year = datetime.datetime.now().year
         age = current_year - birth_year
         return cls(name, age, species, owner)
 
