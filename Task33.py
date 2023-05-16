@@ -1,7 +1,6 @@
 def custom_zip(*sequences, full=False, default=None):
-
     if full:
-        max_length = max(len(seq) for seq in sequences)
+        max_length = max(len(sequence) for sequence in sequences)
         result = []
         for i in range(max_length):
             tuple_i = []
@@ -12,7 +11,8 @@ def custom_zip(*sequences, full=False, default=None):
                     tuple_i.append(default)
             result.append(tuple(tuple_i))
     else:
-        result = list(zip(*sequences))
+        min_length = min(len(sequence) for sequence in sequences)
+        result = [tuple(sequence[i] for sequence in sequences) for i in range(min_length)]
     return result
 
 
