@@ -1,4 +1,7 @@
-lst = [['a', 'c', 'd'], ['f', 'b', 'a'], ['a', 'n', 'k'], ['e', 'l', 'i']]
+lst = [['a', 'c', 'd'],
+       ['f', 'b', 'a'],
+       ['a', 'n', 'k'],
+       ['e', 'l', 'i']]
 
 for col in range(len(lst[0])):
     column = []
