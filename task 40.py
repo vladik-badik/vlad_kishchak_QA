@@ -1,62 +1,62 @@
 from abc import ABC, abstractmethod
 
 
-class AbstractProductA(ABC):
+class Sedan(ABC):
     @abstractmethod
     def useful_function_a(self) -> str:
         pass
 
-class AbstractProductB(ABC):
+class Hatchback(ABC):
     @abstractmethod
     def useful_function_b(self) -> str:
         pass
 
 
-class specificProductA1(AbstractProductA):
+class mersedes_S(Sedan):
     def useful_function_a(self) -> str:
-        return "The result of the product A1."
+        return "The result of the mersedes S class."
 
-class specificProductA2(AbstractProductA):
+class mersedes_CLK(Sedan):
     def useful_function_a(self) -> str:
-        return "The result of the product A2."
+        return "The result of the mersedes CLK."
 
 
-class specificProductB1(AbstractProductB):
+class mersedes_A1(Hatchback):
     def useful_function_b(self) -> str:
-        return "The result of the product B1."
+        return "The result of the mersedes A1 class ."
 
-class specificProductB2(AbstractProductB):
+class miniCooper(Hatchback):
     def useful_function_b(self) -> str:
-        return "The result of the product B2."
+        return "The result of the Mini Cooper."
 
 
-class AbstractFactory(ABC):
+class Concern_Mersedes(ABC):
     @abstractmethod
-    def create_product_a(self) -> AbstractProductA:
+    def create_product_a(self) -> Sedan:
         pass
 
     @abstractmethod
-    def create_product_b(self) -> AbstractProductB:
+    def create_product_b(self) -> Hatchback:
         pass
 
 
-class specificFactory1(AbstractFactory):
-    def create_product_a(self) -> AbstractProductA:
-        return specificProductA1()
+class Mersedes_LTD(Concern_Mersedes):
+    def create_product_a(self) -> Sedan:
+        return mersedes_S()
 
-    def create_product_b(self) -> AbstractProductB:
-        return specificProductB1()
-
-
-class specificFactory2(AbstractFactory):
-    def create_product_a(self) -> AbstractProductA:
-        return specificProductA2()
-
-    def create_product_b(self) -> AbstractProductB:
-        return specificProductB2()
+    def create_product_b(self) -> Hatchback:
+        return mersedes_A1()
 
 
-def client_code(factory: AbstractFactory) -> None:
+class Cooper_LTD(Concern_Mersedes):
+    def create_product_a(self) -> Sedan:
+        return mersedes_CLK()
+
+    def create_product_b(self) -> Hatchback:
+        return miniCooper()
+
+
+def client_code(factory: Concern_Mersedes) -> None:
     product_a = factory.create_product_a()
     product_b = factory.create_product_b()
 
@@ -65,8 +65,8 @@ def client_code(factory: AbstractFactory) -> None:
 
 
 if __name__ == "__main__":
-    factory1 = specificFactory1()
+    factory1 = Mersedes_LTD()
     client_code(factory1)
 
-    factory2 = specificFactory2()
+    factory2 = Cooper_LTD()
     client_code(factory2)
