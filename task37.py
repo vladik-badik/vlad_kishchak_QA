@@ -1,4 +1,5 @@
-class Mixin:
+class AttributePrinterMixin:
+
     def __str__(self):
         class_name = self.__class__.__name__
         attributes = self._get_attributes()
@@ -10,7 +11,7 @@ class Mixin:
     def _get_attributes(self):
         attributes = {}
         for base_class in reversed(self.__class__.__bases__):
-            if issubclass(base_class, Mixin):
+            if issubclass(base_class, AttributePrinterMixin):
                 attributes.update(base_class._get_attributes(base_class))
         attributes.update(self.__dict__)
         return attributes
@@ -36,8 +37,9 @@ class Mixin:
         return str(value)
 
 
-class A(Mixin):
+class A(AttributePrinterMixin):
     def __init__(self):
+        super().__init__()
         self.public_field = 3
         self._protected_field = 'q'
         self.__private_field = [1, 2, 3]
