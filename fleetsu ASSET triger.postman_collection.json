@@ -1,0 +1,1444 @@
+{
+	"info": {
+		"_postman_id": "5397ebb0-f8bc-4c42-b543-d0746ff232eb",
+		"name": "fleetsu ASSET triger",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17309694"
+	},
+	"item": [
+		{
+			"name": "Log-in",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"let response = pm.response.json();",
+							"pm.environment.set(\"Token\", response.bearerToken);",
+							"",
+							"pm.collectionVariables.set(\"current_time\", new Date().toISOString());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "aaaaaaA1@",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "asset.manager@randmcnally.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/login/",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Asset1 location update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(202);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "datetime",
+							"value": "{{current_time}}",
+							"type": "text"
+						},
+						{
+							"key": "deviceId",
+							"value": "{{Asset1}}",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "{{latitudeAsset1}}",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "{{longitudeAsset1}}",
+							"type": "text"
+						},
+						{
+							"key": "speed",
+							"value": "{{speed}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/events",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get  event1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"let response = pm.response.json();",
+							"//pm.environment.set(\"eventId\", response.results[0].eventId);",
+							"",
+							"pm.environment.set(\"enventLat\", response.results[0].latitude);",
+							"pm.environment.set(\"enventLon\", response.results[0].longitude);",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/events?deviceId={{Asset1}}",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"events"
+					],
+					"query": [
+						{
+							"key": "deviceId",
+							"value": "{{Asset1}}"
+						},
+						{
+							"key": "datetime",
+							"value": "2023-02-17T11:20:52+0000",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "confirm Asset1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"let response = pm.response.json();",
+							"//pm.environment.set(\"device-id\", response.results[0].deviceId);",
+							"",
+							"pm.environment.set(\"deviceHealthId\", response.results[0].deviceHealthId);",
+							"const envValue = pm.environment.get(\"deviceHealthId\");",
+							"const collValue = pm.collectionVariables.get(\"Status\");",
+							"pm.test(\"Status is online\", function () {",
+							"    pm.expect(envValue).to.equal(collValue);",
+							"});",
+							"",
+							"pm.environment.set(\"latitude\", response.results[0].event.latitude);",
+							"pm.environment.set(\"longitude\", response.results[0].event.longitude);",
+							"const v1 = pm.environment.get(\"latitude\");",
+							"const v2 = pm.environment.get(\"enventLat\");",
+							"const v3 = pm.environment.get(\"longitude\");",
+							"const v4 = pm.environment.get(\"enventLon\");",
+							"pm.test(\"Location is correct\", function () {",
+							"   pm.expect(v1).to.equal(v2);",
+							"   pm.expect(v3).to.equal(v4);",
+							"});",
+							"",
+							"//pm.test(\"Lat is correct\", function () {",
+							"   //pm.expect(v1).to.equal(v2);",
+							"//});",
+							"",
+							"",
+							"//pm.test(\"Lon is correct\", function () {",
+							" //pm.expect(v3).to.equal(v4);",
+							"//});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/driverid/assets?deviceId={{Asset1}}",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"driverid",
+						"assets"
+					],
+					"query": [
+						{
+							"key": "deviceId",
+							"value": "{{Asset1}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Asset2 location update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(202);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "datetime",
+							"value": "{{current_time}}",
+							"type": "text"
+						},
+						{
+							"key": "deviceId",
+							"value": "{{Asset2}}",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "{{latitudeAsset2}}",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "{{longitudeAsset2}}",
+							"type": "text"
+						},
+						{
+							"key": "speed",
+							"value": "{{speed}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/events",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get  event2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"let response = pm.response.json();",
+							"//pm.environment.set(\"eventId\", response.results[0].eventId);",
+							"",
+							"pm.environment.set(\"enventLat\", response.results[0].latitude);",
+							"pm.environment.set(\"enventLon\", response.results[0].longitude);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/events?deviceId={{Asset2}}",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"events"
+					],
+					"query": [
+						{
+							"key": "deviceId",
+							"value": "{{Asset2}}"
+						},
+						{
+							"key": "datetime",
+							"value": "2023-02-17T11:20:52+0000",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "confirm Asset2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"let response = pm.response.json();",
+							"//pm.environment.set(\"device-id\", response.results[0].deviceId);",
+							"",
+							"pm.environment.set(\"deviceHealthId\", response.results[0].deviceHealthId);",
+							"const envValue = pm.environment.get(\"deviceHealthId\");",
+							"const collValue = pm.collectionVariables.get(\"Status\");",
+							"pm.test(\"Status is online\", function () {",
+							"    pm.expect(envValue).to.equal(collValue);",
+							"});",
+							"",
+							"pm.environment.set(\"latitude\", response.results[0].event.latitude);",
+							"pm.environment.set(\"longitude\", response.results[0].event.longitude);",
+							"const v1 = pm.environment.get(\"latitude\");",
+							"const v2 = pm.environment.get(\"enventLat\");",
+							"const v3 = pm.environment.get(\"longitude\");",
+							"const v4 = pm.environment.get(\"enventLon\");",
+							"pm.test(\"Location is correct\", function () {",
+							"   pm.expect(v1).to.equal(v2);",
+							"   pm.expect(v3).to.equal(v4);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/driverid/assets?deviceId={{Asset2}}",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"driverid",
+						"assets"
+					],
+					"query": [
+						{
+							"key": "deviceId",
+							"value": "{{Asset2}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Asset3 location update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(202);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "datetime",
+							"value": "{{current_time}}",
+							"type": "text"
+						},
+						{
+							"key": "deviceId",
+							"value": "{{Asset3}}",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "{{latAsset3}}",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "{{lonAsset3}}",
+							"type": "text"
+						},
+						{
+							"key": "speed",
+							"value": "{{speed}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/events",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get  event3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"let response = pm.response.json();",
+							"//pm.environment.set(\"eventId\", response.results[0].eventId);",
+							"",
+							"pm.environment.set(\"enventLat\", response.results[0].latitude);",
+							"pm.environment.set(\"enventLon\", response.results[0].longitude);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/events?deviceId={{Asset3}}",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"events"
+					],
+					"query": [
+						{
+							"key": "deviceId",
+							"value": "{{Asset3}}"
+						},
+						{
+							"key": "datetime",
+							"value": "2023-02-17T11:20:52+0000",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "confirm Asset3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"let response = pm.response.json();",
+							"//pm.environment.set(\"device-id\", response.results[0].deviceId);",
+							"",
+							"pm.environment.set(\"deviceHealthId\", response.results[0].deviceHealthId);",
+							"const envValue = pm.environment.get(\"deviceHealthId\");",
+							"const collValue = pm.collectionVariables.get(\"Status\");",
+							"pm.test(\"Status is online\", function () {",
+							"    pm.expect(envValue).to.equal(collValue);",
+							"});",
+							"",
+							"pm.environment.set(\"latitude\", response.results[0].event.latitude);",
+							"pm.environment.set(\"longitude\", response.results[0].event.longitude);",
+							"const v1 = pm.environment.get(\"latitude\");",
+							"const v2 = pm.environment.get(\"enventLat\");",
+							"const v3 = pm.environment.get(\"longitude\");",
+							"const v4 = pm.environment.get(\"enventLon\");",
+							"pm.test(\"Location is correct\", function () {",
+							"   pm.expect(v1).to.equal(v2);",
+							"   pm.expect(v3).to.equal(v4);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/driverid/assets?deviceId={{Asset3}}",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"driverid",
+						"assets"
+					],
+					"query": [
+						{
+							"key": "deviceId",
+							"value": "{{Asset3}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Asset4 location update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(202);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "datetime",
+							"value": "{{current_time}}",
+							"type": "text"
+						},
+						{
+							"key": "deviceId",
+							"value": "{{Asset4}}",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "49.830858",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "24.027489",
+							"type": "text"
+						},
+						{
+							"key": "speed",
+							"value": "{{speed}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/events",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get  event4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"let response = pm.response.json();",
+							"//pm.environment.set(\"eventId\", response.results[0].eventId);",
+							"",
+							"pm.environment.set(\"enventLat\", response.results[0].latitude);",
+							"pm.environment.set(\"enventLon\", response.results[0].longitude);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/events?deviceId={{Asset4}}",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"events"
+					],
+					"query": [
+						{
+							"key": "deviceId",
+							"value": "{{Asset4}}"
+						},
+						{
+							"key": "datetime",
+							"value": "2023-02-17T11:20:52+0000",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "confirm Asset4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"let response = pm.response.json();",
+							"//pm.environment.set(\"device-id\", response.results[0].deviceId);",
+							"",
+							"pm.environment.set(\"deviceHealthId\", response.results[0].deviceHealthId);",
+							"const envValue = pm.environment.get(\"deviceHealthId\");",
+							"const collValue = pm.collectionVariables.get(\"Status\");",
+							"pm.test(\"Status is online\", function () {",
+							"    pm.expect(envValue).to.equal(collValue);",
+							"});",
+							"",
+							"pm.environment.set(\"latitude\", response.results[0].event.latitude);",
+							"pm.environment.set(\"longitude\", response.results[0].event.longitude);",
+							"const v1 = pm.environment.get(\"latitude\");",
+							"const v2 = pm.environment.get(\"enventLat\");",
+							"const v3 = pm.environment.get(\"longitude\");",
+							"const v4 = pm.environment.get(\"enventLon\");",
+							"pm.test(\"Location is correct\", function () {",
+							"   pm.expect(v1).to.equal(v2);",
+							"   pm.expect(v3).to.equal(v4);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/driverid/assets?deviceId={{Asset4}}",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"driverid",
+						"assets"
+					],
+					"query": [
+						{
+							"key": "deviceId",
+							"value": "{{Asset4}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Asset5 location update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(202);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "datetime",
+							"value": "{{current_time}}",
+							"type": "text"
+						},
+						{
+							"key": "deviceId",
+							"value": "{{Asset5}}",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "49.873731",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "24.014769",
+							"type": "text"
+						},
+						{
+							"key": "speed",
+							"value": "{{speed}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/events",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get  event 5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"let response = pm.response.json();",
+							"//pm.environment.set(\"eventId\", response.results[0].eventId);",
+							"",
+							"pm.environment.set(\"enventLat\", response.results[0].latitude);",
+							"pm.environment.set(\"enventLon\", response.results[0].longitude);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/events?deviceId={{Asset5}}",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"events"
+					],
+					"query": [
+						{
+							"key": "deviceId",
+							"value": "{{Asset5}}"
+						},
+						{
+							"key": "datetime",
+							"value": "2023-02-17T11:20:52+0000",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "confirm Asset 5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"let response = pm.response.json();",
+							"//pm.environment.set(\"device-id\", response.results[0].deviceId);",
+							"",
+							"pm.environment.set(\"deviceHealthId\", response.results[0].deviceHealthId);",
+							"const envValue = pm.environment.get(\"deviceHealthId\");",
+							"const collValue = pm.collectionVariables.get(\"Status\");",
+							"pm.test(\"Status is online\", function () {",
+							"    pm.expect(envValue).to.equal(collValue);",
+							"});",
+							"",
+							"pm.environment.set(\"latitude\", response.results[0].event.latitude);",
+							"pm.environment.set(\"longitude\", response.results[0].event.longitude);",
+							"const v1 = pm.environment.get(\"latitude\");",
+							"const v2 = pm.environment.get(\"enventLat\");",
+							"const v3 = pm.environment.get(\"longitude\");",
+							"const v4 = pm.environment.get(\"enventLon\");",
+							"pm.test(\"Location is correct\", function () {",
+							"   pm.expect(v1).to.equal(v2);",
+							"   pm.expect(v3).to.equal(v4);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/driverid/assets?deviceId={{Asset5}}",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"driverid",
+						"assets"
+					],
+					"query": [
+						{
+							"key": "deviceId",
+							"value": "{{Asset5}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Aseet6 location update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(202);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "datetime",
+							"value": "{{current_time}}",
+							"type": "text"
+						},
+						{
+							"key": "deviceId",
+							"value": "{{Asset6}}",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "49.873728",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "24.015792",
+							"type": "text"
+						},
+						{
+							"key": "speed",
+							"value": "{{speed}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/events",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get  event 6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"let response = pm.response.json();",
+							"//pm.environment.set(\"eventId\", response.results[0].eventId);",
+							"",
+							"pm.environment.set(\"enventLat\", response.results[0].latitude);",
+							"pm.environment.set(\"enventLon\", response.results[0].longitude);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/events?deviceId={{Asset6}}",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"events"
+					],
+					"query": [
+						{
+							"key": "datetime",
+							"value": "2023-02-17T11:20:52+0000",
+							"disabled": true
+						},
+						{
+							"key": "deviceId",
+							"value": "{{Asset6}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Asset 7 location update",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "datetime",
+							"value": "{{current_time}}",
+							"type": "text"
+						},
+						{
+							"key": "deviceId",
+							"value": "{{Asset7}}",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "49.5771643",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "34.5155803",
+							"type": "text"
+						},
+						{
+							"key": "speed",
+							"value": "{{speed}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/events",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Asset8 location update",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "datetime",
+							"value": "{{current_time}}",
+							"type": "text"
+						},
+						{
+							"key": "deviceId",
+							"value": "{{Asset8}}",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "49.5771643",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "34.5155803",
+							"type": "text"
+						},
+						{
+							"key": "speed",
+							"value": "{{speed}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://mobiledev.fleetsu.com/v1/events",
+					"protocol": "https",
+					"host": [
+						"mobiledev",
+						"fleetsu",
+						"com"
+					],
+					"path": [
+						"v1",
+						"events"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Asset1",
+			"value": "07947c5a-708c-46b6-8dc9-e",
+			"type": "string"
+		},
+		{
+			"key": "Asset2",
+			"value": "aac63d35-a186-47ef-a48a-1",
+			"type": "string"
+		},
+		{
+			"key": "Asset3",
+			"value": "7650e829-d941-4d4b-bae4-b",
+			"type": "string"
+		},
+		{
+			"key": "Asset4",
+			"value": "2cd11014-5a04-4647-a633-3",
+			"type": "string"
+		},
+		{
+			"key": "Asset5",
+			"value": "08e8abd8-e828-4261-95b8-2",
+			"type": "string"
+		},
+		{
+			"key": "Asset6",
+			"value": "dab3fa47-e853-4384-ae0f-7",
+			"type": "string"
+		},
+		{
+			"key": "Asset7",
+			"value": "3486d636-e817-438e-98e5-a",
+			"type": "string"
+		},
+		{
+			"key": "Status",
+			"value": "online",
+			"type": "string"
+		},
+		{
+			"key": "current_time",
+			"value": ""
+		},
+		{
+			"key": "speed",
+			"value": "0",
+			"type": "string"
+		},
+		{
+			"key": "latitudeAsset1",
+			"value": "49.835588",
+			"type": "string"
+		},
+		{
+			"key": "longitudeAsset1",
+			"value": "24.024855",
+			"type": "string"
+		},
+		{
+			"key": "latitudeAsset2",
+			"value": "49.830999",
+			"type": "string"
+		},
+		{
+			"key": "longitudeAsset2",
+			"value": "24.028582",
+			"type": "string"
+		},
+		{
+			"key": "latAsset3",
+			"value": "49.812656",
+			"type": "string"
+		},
+		{
+			"key": "lonAsset3",
+			"value": "24.059629",
+			"type": "string"
+		},
+		{
+			"key": "Asset8",
+			"value": "cc135f3d-b512-4223-bd67-c",
+			"type": "string"
+		}
+	]
+}
